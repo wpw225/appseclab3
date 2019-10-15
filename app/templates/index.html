@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul id="success">
+	{% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+{% block content %}
+
+    <h1>Hello User {{ current_user.username }}</h1>
+    {% if form %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.post.label }}<br>
+            {{ form.post(cols=120, rows=8) }}<br>
+            {% for error in form.post.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    {% else %}
+    <p id="textout">
+    Supplied Text: <b>{{ post.body }}</b>
+    </p>
+    <p id="misspelled">
+    Misspelled Words: <b>{{ result }}</b>
+    </p>
+    {% endif %} 
+
+{% endblock %}
