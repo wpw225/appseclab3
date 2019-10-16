@@ -45,7 +45,7 @@ def login():
         if not user.check_password2(form.pword2.data):
             flash('Two-factor authentication failure')
             return redirect(url_for('login'))
-#        login_user(user, remember=form.remember_me.data)
+        flash('Success - User Login Request')
         login_user(user)
         next_page = request.args.get('next')
         if not next_page or urlparse(next_page).netloc != '':
