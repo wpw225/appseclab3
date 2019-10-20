@@ -5,3 +5,5 @@ flask-sqlalchemy
 flask-migrate
 flask-login
 werkzeug
+requests
+bs4
