@@ -74,11 +74,11 @@ class FeatureTest(unittest.TestCase):
         self.assertTrue(resp, "2FA Registration successful")
 
     def test_invalid_registration(self):
-        resp = register("test50","test50","") #Duplicate ID
+        resp = register("test30","test30","") #Duplicate ID
         self.assertFalse(resp, "Duplicate registration successful")
 
     def test_invalid_2fa_registration(self):
-        resp = register("test51","test51","0123456789")
+        resp = register("test31","test31","0123456789")
         self.assertFalse(resp, "Duplicate 2FA registration successful")
 
 
