@@ -16,6 +16,15 @@ def getElementById(text, eid):
     result = soup.find(id=eid)
     return result
 
+def login_bypass(session=None):
+    if session is None:
+        session = requests.Session()
+    csrftoken = getCsrfToken(spell_check_url, session)
+    spell_check_data = {"post": "something", "csrf_token": csrftoken}
+    r = session.post(spell_check_url, data=spell_check_data)
+    result = getElementById(r.text, "result").get_text()
+    return result
+
 def login(uname, pword, twofactor, session=None):
     if session is None:
         session = requests.Session()
@@ -55,6 +64,7 @@ def spell_check(uname, pword, twofactor, inputtext, session=None):
         return "" 
 
 
+
 class FeatureTest(unittest.TestCase):
 
     def test_page_exists(self):
@@ -64,24 +74,24 @@ class FeatureTest(unittest.TestCase):
             req = requests.get(server_address + page)
             self.assertEqual(req.status_code, 200)
 
+    def test_login_bypass(self):
+        resp = login_bypass()
+        self.assertEqual(resp, "Please log in to access this page.")
+
     def test_valid_login(self):
-        #login_addr = server_address + "/login"
         resp = login("test30","test30","")
         self.assertTrue(resp, "success! you are logged in")
 
     def test_valid_2fa_login(self):
-        #login_addr = server_address + "/login"
         resp = login("test31","test31","1111111111")
         self.assertTrue(resp, "success! you are logged in with 2fa")
 
 
     def test_invalid_login(self):
-        #login_addr = server_address + "/login"
         resp = login("test30","badpass","")
         self.assertFalse(resp, "Login authenticated an invalid uname/password")
 
     def test_invalid_2fa_login(self):
-        #login_addr = server_address + "/login"
         resp = login("test31","test31","2222222222")
         self.assertFalse(resp, "Login authenticated an invalid 2fa")
 
