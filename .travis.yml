@@ -12,5 +12,5 @@ install:
  - pip3 install -r requirements.txt
 
 script:
- - flask run &
+ - flask run --cert=adhoc &
  - tox
