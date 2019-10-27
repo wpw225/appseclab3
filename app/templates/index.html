@@ -18,7 +18,7 @@
 
     <h1>Hello User {{ current_user.username }}</h1>
     {% if form %}
-    <form action="" method="post">
+    <form action="" method="post" value="" autocomplete="off">
         {{ form.hidden_tag() }}
         <p>
             {{ form.post.label }}<br>

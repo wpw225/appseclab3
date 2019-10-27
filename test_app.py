@@ -2,7 +2,10 @@ import unittest
 import requests
 from bs4 import BeautifulSoup
 
-server_address="http://127.0.0.1:5000"
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+server_address="https://127.0.0.1:5000"
 server_login=server_address + "/login"
 user_register = server_address + "/register"
 spell_check_url = server_address + "/spell_check"
@@ -19,6 +22,7 @@ def getElementById(text, eid):
 def login_bypass(session=None):
     if session is None:
         session = requests.Session()
+        session.verify = False
     csrftoken = getCsrfToken(spell_check_url, session)
     spell_check_data = {"post": "something", "csrf_token": csrftoken}
     r = session.post(spell_check_url, data=spell_check_data)
@@ -28,6 +32,7 @@ def login_bypass(session=None):
 def login(uname, pword, twofactor, session=None):
     if session is None:
         session = requests.Session()
+        session.verify = False
     csrftoken = getCsrfToken(server_login, session) 
     test_creds = {"uname": uname, "pword": pword, "pword2": twofactor, "csrf_token": csrftoken}
     r = session.post(server_login, data=test_creds)
@@ -38,6 +43,7 @@ def login(uname, pword, twofactor, session=None):
 def register(uname, pword, twofactor, session=None):
     if session is None:
         session = requests.Session()
+        session.verify = False
     csrftoken = getCsrfToken(user_register, session)
     test_creds = {"uname": uname, "pword": pword, "pword2": twofactor, "csrf_token": csrftoken}
     r = session.post(user_register, data=test_creds)
@@ -49,6 +55,7 @@ def register(uname, pword, twofactor, session=None):
 def spell_check(uname, pword, twofactor, inputtext, session=None):
     if session is None:
         session = requests.Session()
+        session.verify = False
     csrftoken = getCsrfToken(server_login, session)
     test_creds = {"uname": uname, "pword": pword, "pword2": twofactor, "csrf_token": csrftoken}
     r = session.post(server_login, data=test_creds)
@@ -68,10 +75,9 @@ def spell_check(uname, pword, twofactor, inputtext, session=None):
 class FeatureTest(unittest.TestCase):
 
     def test_page_exists(self):
-
         PAGES = ["/","/register","/login","/spell_check"]
         for page in PAGES:
-            req = requests.get(server_address + page)
+            req = requests.get(server_address + page, verify=False)
             self.assertEqual(req.status_code, 200)
 
     def test_login_bypass(self):
@@ -86,7 +92,6 @@ class FeatureTest(unittest.TestCase):
         resp = login("test31","test31","1111111111")
         self.assertTrue(resp, "success! you are logged in with 2fa")
 
-
     def test_invalid_login(self):
         resp = login("test30","badpass","")
         self.assertFalse(resp, "Login authenticated an invalid uname/password")
@@ -96,11 +101,11 @@ class FeatureTest(unittest.TestCase):
         self.assertFalse(resp, "Login authenticated an invalid 2fa")
 
     def test_registration(self):
-        resp = register("test50","test50","")
+        resp = register("test60","test50","")
         self.assertTrue(resp, "Registration successful")
 
     def test_2fa_registration(self):
-        resp = register("test51","test51","0123456789")
+        resp = register("test61","test51","0123456789")
         self.assertTrue(resp, "2FA Registration successful")
 
     def test_invalid_registration(self):

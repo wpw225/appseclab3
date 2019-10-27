@@ -7,3 +7,5 @@ flask-login
 werkzeug
 requests
 bs4
+talisman
+pyopenssl
