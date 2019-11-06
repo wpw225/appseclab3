@@ -120,12 +120,12 @@ def logout():
 def history():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
-#    if current_user.username == "admin":
-#        return redirect(url_for('history_query'))
-#    else:    
-    posts = current_user.spellcheck_posts().all()
-    posts_count = current_user.spellcheck_posts().count()
-    return render_template("history.html", title='History Page', posts=posts, count=posts_count)
+    if current_user.username == "admin":
+        return redirect(url_for('history_query'))
+    else:    
+        posts = current_user.spellcheck_posts().all()
+        posts_count = current_user.spellcheck_posts().count()
+        return render_template("history.html", title='History Page', posts=posts, count=posts_count)
 
 @app.route('/history_query', methods=['GET', 'POST'])
 def history_query():

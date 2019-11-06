@@ -35,8 +35,10 @@
     </p>
     {% for post in posts %}
     <p id=query{{ post.id }}>
+    <a href="http://127.0.0.1:5000/history/query{{ post.id }}">
 	{{ post.author.username }} spellchecks: <b>{{ post.body }}</b>
 	results: <b>{{ post.result }}</b>
+    </a>
     </p>
     {% endfor %}
 
