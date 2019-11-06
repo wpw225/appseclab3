@@ -15,34 +15,34 @@ from app.models import Login
 #from urlparse import urlparse
 from urllib.parse import urlparse
 from subprocess import check_output
-from talisman import Talisman,ALLOW_FROM
+#from talisman import Talisman,ALLOW_FROM
 from datetime import datetime
 
 SELF = "'self'"
 print(SELF)
-talisman = Talisman(
-    app,
-    content_security_policy={
-        'default-src': SELF,
-        'img-src': '*',
-        'script-src': SELF,
-        'style-src': [
-            SELF
-        ],
-    },
-    force_https=True,
-    force_https_permanent=False,
-    strict_transport_security=False
-)
+#talisman = Talisman(
+#    app,
+#    content_security_policy={
+#        'default-src': SELF,
+#        'img-src': '*',
+#        'script-src': SELF,
+#        'style-src': [
+#            SELF
+#        ],
+#    },
+#    force_https=True,
+#    force_https_permanent=False,
+#    strict_transport_security=False
+#)
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/spell_check', methods=['GET', 'POST'])
 @login_required
-@talisman(
-    frame_options='ALLOW-FROM',
-    frame_options_allow_from='https://127.0.0.1:5000/',
-)
+#@talisman(
+#    frame_options='ALLOW-FROM',
+#    frame_options_allow_from='https://127.0.0.1:5000/',
+#)
 
 def index():
     form = PostForm()
