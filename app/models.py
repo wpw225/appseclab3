@@ -7,10 +7,10 @@ from app import login
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     password2_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    logins = db.relationship('Login', backref='author')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -27,17 +27,28 @@ class User(UserMixin, db.Model):
     def check_password2(self, password2):
         return check_password_hash(self.password2_hash, password2)
 
-    def spellcheck_lastpost(self):
-        return Post.query.filter_by(user_id=self.id).order_by(Post.timestamp.desc()).first()
+    def spellcheck_posts(self):
+        return Post.query.filter_by(user_id=self.id).order_by(Post.timestamp.desc())
+
+    def login_logs(self, id):
+        print("id",id)
+        return Login.query.filter_by(user_id=id)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
+    body = db.Column(db.String(1000))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    result = db.Column(db.String(1000))
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+class Login(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    login_timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    logout_timestamp = db.Column(db.DateTime, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 @login.user_loader
 def load_user(id):

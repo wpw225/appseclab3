@@ -25,3 +25,11 @@ class PostForm(FlaskForm):
     post = TextAreaField('Text For Spellcheck Program', validators=[DataRequired(), Length(min=1, max=140)], id="inputtext")
     submit = SubmitField('Submit')
 
+class HistoryForm(FlaskForm):
+    uname = StringField('Username', validators=[DataRequired()], id="userquery")
+    submit = SubmitField('Search')
+
+class LoginHistoryForm(FlaskForm):
+    uid = StringField('UserID', validators=[DataRequired()], id="userid")
+    submit = SubmitField('Search')
+
