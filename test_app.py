@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-server_address="https://127.0.0.1:5000"
+server_address="http://127.0.0.1:5000"
 server_login=server_address + "/login"
 user_register = server_address + "/register"
 spell_check_url = server_address + "/spell_check"
