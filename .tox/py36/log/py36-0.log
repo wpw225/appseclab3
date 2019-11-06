@@ -1,9 +1,0 @@
-action: py36, msg: getenv
-cwd: /home/naruto/project/appseclab2/.tox
-cmd: /usr/bin/python3 -m virtualenv --no-download --python /usr/bin/python3 py36
-Already using interpreter /usr/bin/python3
-Using base prefix '/usr'
-New python executable in /home/naruto/project/appseclab2/.tox/py36/bin/python3
-Also creating executable in /home/naruto/project/appseclab2/.tox/py36/bin/python
-Installing setuptools, pip, wheel...
-done.
