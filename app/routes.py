@@ -150,8 +150,10 @@ def history_query():
 def query(id):
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
-    print("ID:", id)
-    posts = current_user.spellcheck_posts()
+    if current_user.username == "admin":
+        posts = current_user.spellcheck_posts_all()
+    else:
+        posts = current_user.spellcheck_posts().all()
     post = posts.filter_by(id=id).first()
     print(post)
     return render_template('query.html', title='Query', post=post)

@@ -30,6 +30,9 @@ class User(UserMixin, db.Model):
     def spellcheck_posts(self):
         return Post.query.filter_by(user_id=self.id).order_by(Post.timestamp.desc())
 
+    def spellcheck_posts_all(self):
+        return Post.query.order_by(Post.timestamp.desc())
+
     def login_logs(self, id):
         print("id",id)
         return Login.query.filter_by(user_id=id)
