@@ -153,7 +153,7 @@ def query(id):
     if current_user.username == "admin":
         posts = current_user.spellcheck_posts_all()
     else:
-        posts = current_user.spellcheck_posts().all()
+        posts = current_user.spellcheck_posts()
     post = posts.filter_by(id=id).first()
     print(post)
     return render_template('query.html', title='Query', post=post)
